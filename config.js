@@ -1,6 +1,6 @@
 window.GARBA_CONFIG = {
   mode: "demo",
   recipientName: "Christian",
-  recipientEmail: "",
+  recipientEmail: "christian.garcia@sfgarba.com.mx",
   submitEndpoint: ""
 };
