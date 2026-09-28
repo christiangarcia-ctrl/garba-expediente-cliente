@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GarBa | Expediente de cliente</title>
+  <meta name="description" content="Portal de GarBa para captura segura de datos y documentos de clientes." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div class="brand">GarBa</div>
+      <div>
+        <p class="eyebrow">Expediente de cliente</p>
+        <h1>Completa tus datos para continuar con tu trámite</h1>
+        <p class="intro">Te tomará pocos minutos. Ten a la mano tu INE por ambos lados y un comprobante de domicilio reciente.</p>
+      </div>
+    </header>
+
+    <section class="progress-wrap" aria-label="Progreso">
+      <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+      <div class="progress-copy"><span id="progressText">Paso 1 de 4</span><span id="missingCount"></span></div>
+    </section>
+
+    <form id="clientForm" novalidate>
+      <section class="step active" data-step="1">
+        <div class="section-heading">
+          <span class="step-number">1</span>
+          <div>
+            <h2>Tus datos</h2>
+            <p>Información básica de contacto.</p>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <label class="field">
+            <span>Nombre completo</span>
+            <input name="fullName" autocomplete="name" required />
+            <small class="error">Falta tu nombre completo.</small>
+          </label>
+
+          <label class="field">
+            <span>Profesión u ocupación</span>
+            <input name="profession" autocomplete="organization-title" required />
+            <small class="error">Falta indicar tu profesión u ocupación.</small>
+          </label>
+
+          <label class="field">
+            <span>Correo electrónico</span>
+            <input name="email" type="email" autocomplete="email" required />
+            <small class="error">Ingresa un correo válido.</small>
+          </label>
+
+          <label class="field">
+            <span>Teléfono</span>
+            <input name="phone" inputmode="tel" autocomplete="tel" minlength="10" required />
+            <small class="error">Ingresa un teléfono válido.</small>
+          </label>
+        </div>
+      </section>
+
+      <section class="step" data-step="2">
+        <div class="section-heading">
+          <span class="step-number">2</span>
+          <div>
+            <h2>Beneficiarios</h2>
+            <p>Agrega uno o más beneficiarios.</p>
+          </div>
+        </div>
+
+        <div id="beneficiaries"></div>
+        <button class="ghost" type="button" id="addBeneficiary">+ Agregar beneficiario</button>
+        <div id="beneficiaryTotal" class="helper"></div>
+      </section>
+
+      <section class="step" data-step="3">
+        <div class="section-heading">
+          <span class="step-number">3</span>
+          <div>
+            <h2>Documentos y domicilio</h2>
+            <p>Sube imágenes claras. Puedes tomar la foto desde tu celular.</p>
+          </div>
+        </div>
+
+        <div class="grid three uploads">
+          <label class="upload-card field">
+            <span class="upload-title">INE frente</span>
+            <input name="ineFront" type="file" accept="image/*,.pdf" required />
+            <span class="upload-hint">JPG, PNG o PDF</span>
+            <small class="error">Falta subir el frente de tu INE.</small>
+          </label>
+
+          <label class="upload-card field">
+            <span class="upload-title">INE reverso</span>
+            <input name="ineBack" type="file" accept="image/*,.pdf" required />
+            <span class="upload-hint">JPG, PNG o PDF</span>
+            <small class="error">Falta subir el reverso de tu INE.</small>
+          </label>
+
+          <label class="upload-card field">
+            <span class="upload-title">Comprobante de domicilio</span>
+            <input name="addressProof" type="file" accept="image/*,.pdf" required />
+            <span class="upload-hint">JPG, PNG o PDF</span>
+            <small class="error">Falta subir tu comprobante.</small>
+          </label>
+        </div>
+
+        <fieldset class="address-choice field" data-required-group="addressSource">
+          <legend>¿Tu domicilio actual coincide con alguno de estos documentos?</legend>
+          <label><input type="radio" name="addressSource" value="ine" required /> Sí, con mi INE</label>
+          <label><input type="radio" name="addressSource" value="proof" required /> Sí, con mi comprobante de domicilio</label>
+          <label><input type="radio" name="addressSource" value="other" required /> No, es diferente</label>
+          <small class="error">Selecciona una opción.</small>
+        </fieldset>
+
+        <div id="addressFields" class="address-box hidden">
+          <div class="grid two">
+            <label class="field"><span>Calle y número</span><input name="street" /></label>
+            <label class="field"><span>Colonia</span><input name="neighborhood" /></label>
+            <label class="field"><span>Código postal</span><input name="postalCode" inputmode="numeric" /></label>
+            <label class="field"><span>Ciudad / municipio</span><input name="city" /></label>
+            <label class="field"><span>Estado</span><input name="state" /></label>
+          </div>
+          <p class="helper" id="addressHelper"></p>
+        </div>
+      </section>
+
+      <section class="step" data-step="4">
+        <div class="section-heading">
+          <span class="step-number">4</span>
+          <div>
+            <h2>Revisar y enviar</h2>
+            <p>Confirma que la información sea correcta.</p>
+          </div>
+        </div>
+
+        <div id="reviewCard" class="review-card"></div>
+
+        <label class="consent field">
+          <input type="checkbox" name="consent" required />
+          <span>Confirmo que los datos proporcionados son correctos y autorizo su uso para gestionar mi solicitud.</span>
+          <small class="error">Necesitamos tu confirmación para enviar.</small>
+        </label>
+
+        <div id="submitMessage" class="submit-message" role="status" aria-live="polite"></div>
+      </section>
+
+      <div class="actions">
+        <button type="button" class="secondary" id="prevBtn" disabled>Anterior</button>
+        <button type="button" class="primary" id="nextBtn">Continuar</button>
+        <button type="submit" class="primary hidden" id="submitBtn">Enviar a Christian</button>
+      </div>
+    </form>
+  </main>
+
+  <template id="beneficiaryTemplate">
+    <article class="beneficiary-card">
+      <div class="beneficiary-head">
+        <strong class="beneficiary-title">Beneficiario</strong>
+        <button type="button" class="remove-beneficiary">Eliminar</button>
+      </div>
+      <div class="grid three">
+        <label class="field"><span>Nombre completo</span><input data-field="name" required /><small class="error">Falta el nombre completo.</small></label>
+        <label class="field"><span>Parentesco</span><input data-field="relationship" required /><small class="error">Falta el parentesco.</small></label>
+        <label class="field"><span>Porcentaje</span><input data-field="percentage" type="number" min="1" max="100" step="1" inputmode="numeric" required /><small class="error">Ingresa un porcentaje válido.</small></label>
+      </div>
+    </article>
+  </template>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
