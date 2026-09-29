@@ -1,4 +1,5 @@
 project_id = "garba-expedientes"
 
+# GitHub integration deployment trigger enabled after project connection.
 [functions.submit-expediente]
 verify_jwt = false
