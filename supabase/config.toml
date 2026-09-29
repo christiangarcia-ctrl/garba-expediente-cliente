@@ -1,0 +1,4 @@
+project_id = "garba-expedientes"
+
+[functions.submit-expediente]
+verify_jwt = false
