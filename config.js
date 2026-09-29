@@ -1,6 +1,6 @@
 window.GARBA_CONFIG = {
-  mode: "demo",
+  mode: "live",
   recipientName: "Christian",
   recipientEmail: "christian.garcia@sfgarba.com.mx",
-  submitEndpoint: ""
+  submitEndpoint: "https://zgfscrftcfucgthhnafr.supabase.co/functions/v1/submit-expediente"
 };
